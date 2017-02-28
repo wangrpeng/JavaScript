@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>原型test5</title>
+</head>
+<body>
+<script>
+    //构造函数来创建对象
+    function Obj(user,age) {
+        this.user = usre;   //实例属性
+        this.age = age;
+        this.f1 = function () {  //实例方法
+          return this.user+':'+this.age;
+        };
+    }
+
+    function Obj2() {}  //原型的属性，方法在每一个实例中都可以共享，
+    Obj2.prototype.user ='rui'; //原型属性
+    Obj2.prototype.age = 23;
+    Obj2.prototype.f1 = function () { //原型方法
+        return this.user+':'+this.age;
+    };
+    var obj = new Obj2();   //obj对象可以获取到原型的属性跟方法
+    alert(obj.f1());
+//    alert(obj.prototype)    //这个属性是一个对象，这样访问不到可以通过__proto__指针来获取
+
+    alert(obj.__proto__);   //这个属性是一个指针，指向prototype原型属性constructor
+
+    alert(obj.constructor);//构造属性，可以获取到构造函数本身，作用是被原型指针定位，
+                            //然后得到构造函数本身，其实就是对象实例对应原型对象的作用。
+
+//在原型模式申明中，多了两个属性，这两个属性都是创建对象时候自动生成的，
+//    __proto__属性是实例对象指向原型对象的一个指针，它的作用是指向构造函数的原型属性constructor
+//    通过这两个属性，就可以访问到原型对象中的对象和方法了。
+
+    alert(Obj2.prototype.isPrototypeOf(obj))
+
+
+    //原型缺点：1）不能传参 2）原型属性更改，所有的实例属性也会跟着被改动。
+
+
+
+
+
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

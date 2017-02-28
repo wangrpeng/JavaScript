@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>面向对象和原型test4</title>
+</head>
+<body>
+<script>
+    /*
+     var obj1 = {
+     name:'wang',
+     age:23,
+     f1:function(){
+     return this.name;   //this 代表当前作用域，{ }代表当前作用域范围
+     }                   //如果this在外面，则代表全局window对象，
+     };
+     alert(obj1.f1());
+
+     */
+
+    //工厂模式创建对象
+    function createObj(user,age) {
+        var obj = new Object();
+        obj.user = user;
+        obj.age = age;
+        obj.f1 = function () {
+          return obj.user+':'+obj.age+'ing...';
+        };
+        return obj;
+    }
+    var obj1 = createObj('simon',23);
+    alert(obj1.f1());
+
+    //构造方法创建对象 ,
+    function Obj(user,age) {    //构造函数名字一般要大写，以区分普通函数
+        this.user = user;
+        this.age = age;
+        this.f1 = function () {
+            return this.user+':'+this.age+'ing...';
+        };
+    }
+    var obj2= new Obj('wang',23);
+    alert(obj2.f1())
+
+//    对象冒充
+    var obj3 = new Object();
+    Obj.call(obj3,'aa',100);
+    alert(obj3.f1());
+
+
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

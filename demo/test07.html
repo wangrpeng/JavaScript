@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>继承</title>
+    <script>
+        /*
+    //继承，通过原型链来实现
+     function Box(age) {    //超类
+         this.age = age;
+     }
+
+     function Desk(name){   //子类
+         this.name = name;
+     }
+
+     function Table(){  //第三层子类，很好用，一般只用两层
+         this.run = function () {
+             return 'AA';
+         }
+     }
+     Desk.prototype = new Box(23);  //通过原型链继承，超类型实例化的对象实例，赋值给子类型的原型属性
+                                    //new Box()会将构造里的信息和原型里的信息都继承给子类型
+     var desk  = new Desk('rui');
+     alert(desk.name+':'+desk.age);
+
+
+     Table.prototype = new Desk('wang');
+
+     var table = new Table();
+     alert(table.run()+' '+table.age+' '+table.name);
+     
+ 	function Box(){
+		this.name = 'simon';
+	}	
+	Box.prototype.name = 'rui'
+	
+	function Desk(){	
+		this.age = '23';
+	}
+	//超类中构造和原型中都有相同的的属性，子类遵循就近原则，先找构造中的属性，如果没有，再找超类原型中的属性
+	//(1)原型链继承缺点：子类实例化时候没有办法给超类穿参数
+	Desk.prototype = new Box();	//
+	var box = new Box();
+	var desk = new Desk();
+	alert(desk.name);	//此处属性值为simon
+	
+	//子类型从属与自己或者对应的的超类型
+	alert(desk instanceof Object);
+	alert(desk instanceof Desk);
+	alert(desk instanceof Box);
+	
+*/
+
+	
+	//使用对象冒充继承（借用构造函数）,只能继承构造里的信息，不能继承超类原型里的信息（方法一般是需要共享的，放在原型里），
+	//所以此时，对象冒充继承访问继承不到原型中的方法。
+	//引用类型放在构造里，就不会被共性例如属性，但放在原型中的，就会被子类共享，
+	//(2)对象冒充（借用构造函数）继承继承缺点：子类没有办法继承到超类原型中的方法
+	
+	function Box(name,age){
+		this.name = name;
+		this.age = age;		
+		this.family = ['1','3','3'];//引用类型放在构造里，就不会被共享（也就不会被子类实例修改），
+									//但放在原型中的，就会被子类共享（会被子类实例修改），
+	}
+	Box.prototype.run = function(){
+		return this.name+':'+this.age;
+	}
+	
+	function Desk(name,age){
+		Box.call(this,name,age);    //对象冒充继承（借用构造函数）
+	}
+	Desk.prototype = new Box('test',100);		//(3)原型链+对象冒充的组合模式(一般模式)
+												//既可以传参，又可以使用超类的原型信息
+	var desk = new Desk('wang',23);
+	alert(desk.run());
+
+
+	
+	
+	
+
+
+
+
+
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>

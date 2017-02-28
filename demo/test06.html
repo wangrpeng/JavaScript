@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>原型test6</title>
+</head>
+<script>
+    /*
+
+     //原型缺点：1）无法再实例在创建实例时候传入参数
+     // 2）某个实例修改了原型属性，会在去他的实例中共享，这是不符合一般流程的
+     function Obj() {}
+     Obj.prototype.arr = ['1','2','3'];
+
+     var obj1 = new Obj();
+
+     alert(obj1.arr);
+     obj1.arr.push('4');
+     alert(obj1.arr);
+
+     var obj2 = new Obj();
+     alert(obj2.arr);    //输出1,2,3,4 obj1实例对象修改了arr的值，会在obj2中共享，这是有问题的。
+
+    // 避免方法：利用组合构造函数+原型一起创建一个对象，
+     //保持独立，同时也解决了共享
+         function Obj(name,age) {    //保持独立的用构造函数
+             this.user = user;
+             this.age = age;
+             this.arr = ['1','2','3'];
+
+         }
+         Obj.prototype = {   //保持共享的用原型
+             constructor:Box,
+             run:function () {
+                 return this.user + this.age+'ing...';
+             }
+         }
+
+     //这样做可以保证共享的属性和独立属性区分开，但是有个问题，原型初始化代码块跟构造函数分开了，不好管理，
+     //我们可以用下面的方法解决这个问题
+     function Obj(user,age){
+     this.user = user;
+     this.age = age;
+     this.arr = ['1','2','3'];
+     alert('prototype ing ...')
+     Obj.prototype.run = function () {
+     return this.user+':'+this.age+' ing...';
+     }
+     alert('prototype ing ...')
+     }
+     var obj1 = new Obj('wang',23);
+     var obj2 = new Obj('rui',24);
+
+
+     //但是这样处理，又有一个问题，原型的构造方法会在每一次创建实例的时候被执行一次
+     //本来是原型的构造方法只在第一次创建实例的时候被执行，可以做以下处理,保证原型的构造只会被执行一次，提高性能
+     //动态原型模式：
+     function Obj(user,age){
+     this.user = user;
+     this.age  =age;
+     this.arr = ['1','2','3'];
+     if(typeof this.run != 'function'){
+     alert('prototype exec ing...');
+     Obj.prototype.run = function(){
+     return this.user+':'+this.age+' ing...'
+     };
+     alert('prototype exec ing...');
+
+     }
+
+     }
+     var obj1 = new Obj('wang',23);
+     var obj2 = new Obj('rui',24);
+
+
+     //寄生构造函数=工厂模式+构造函数
+     function Obj (user,age){
+     var obj = new Object();
+     obj.user = user;
+     obj.age = age;
+     obj.run = function(){
+     return this.user+':'+this.age+'ing...';
+     };
+     return obj;
+     }
+     var obj = new Obj('simon',23);
+     alert(obj.run());
+
+
+     */
+
+    //稳妥构造函数
+
+    function Obj (user,age){
+        var obj = new Object();
+        obj.user = user;
+        obj.age = age;
+        obj.run = function(){
+            return obj.user+':'+obj.age+'ing...';   //这个地方不用this，因为创建的时候不用new，
+        };
+        return obj;
+    }
+    var obj = Obj('simon',23);  //跟寄生构造函数一样，就是创建对象时候，不用new关键字，相当于调用的方法。
+    alert(obj.run());
+
+
+
+
+
+
+
+
+
+</script>
+<body>
+
+</body>
+</html>

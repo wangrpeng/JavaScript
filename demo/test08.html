@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>继承</title>
+</head>
+<script>
+//(1)原型链继承（2）对象冒充(借用构造函数继承)（3）组合继承
+//（4）原型式继承
+//临时中转函数  这里可以在用字面量创建对象，想继承对象时候
+/*
+  function obj(o){
+		function F(){};
+		F.prototype = o;	//将o对象的实力赋值给F的原型对象，最后返回f对象实例，f原型对象继承了o的实例对象。
+		return new F();
+	}
+	var box ={				//这里可以在用字面量创建对象，想继承对象时候
+		name:'simon',
+		age:100
+	};
+	var box1 = obj(box);
+	alert(box1.name+box.age);
+ 
+	
+	//（5）寄生式继承=原型式+工厂模式 结合起来
+	//临时中转函数，奖超类型的所有属性都赋值给子类型
+	function obj(o){
+		function F(){};
+		F.prototype = o;
+		return new F();
+ 	}
+ 	//寄生函数,可以在这里给子类型添加一下属于自己的方法
+ 	function create(o){
+ 		var f = obj(o);
+ 		f.run = function(){
+ 			return this.name+"ing..."
+ 		}
+ 		return f;
+ 		
+ 	}
+ 	var box={
+ 		name:'wang',
+ 		age:100,
+ 		family:['1','2','3']
+ 	}
+ 
+	var box1 = create(box);
+ 	alert(box1.run());
+ 
+ */
+
+
+ 	//（6）寄生组合继承
+ 	//临时中转函数
+ 	function obj(o){
+	 	var F = function(){};
+	 	F.prototype = o;
+	 	return new F();
+ 	}
+ 	//寄生函数
+ 	function create(box,desk){
+ 		var f = obj(box.prototype);
+ 		f.constructor = desk;	//调整原型构造指针 		
+ 		desk.prototype = f;
+ 		
+ 	}
+ 	
+ 	function Box(name,age){
+ 		this.name = name;
+ 		this.age = age;
+ 	}
+ 	Box.prototype.run = function(){
+ 		return this.name+':'+this.age+'ing...';
+ 	}
+ 	
+ 	function Desk(name,age){
+ 		Box.call(this,name,age);	//对象冒充
+ 	}
+ 	//通过寄生组合模式来实现继承
+ 	create(Box,Desk);	//这句话用来替代 Desk.prototype = new Box();
+ 	
+ 	var desk = new Desk('simon',12)
+ 	alert(desk.run())
+ 	alert(desk.constructor)
+ 	
+ 	
+</script>
+<body>
+
+</body>
+</html>
